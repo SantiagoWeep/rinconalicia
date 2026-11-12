@@ -1,0 +1,266 @@
+<!--Pagina Web para la expo 2026
+hecho por: Brenda Khun-->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>El rincón de Alicia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Alex+Brush&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<!-- NUEVO 6.0: activa las animaciones de aparición; si effects.js no cargara, a los 3 s se muestra todo igual -->
+<script>
+  document.documentElement.classList.add('js');
+  setTimeout(function(){ if(!window.__fx) document.documentElement.classList.add('reveal-all'); }, 3000);
+</script>
+</head>
+<body>
+
+<header>
+  <div class="nav">
+    <div class="brand">
+      <img src ="logo 2.0.jpg" alt="logo">
+      <div class="brand-name">El rincón de Alicia</div>
+    </div>
+    <nav class="links">
+      <a href="#coleccion">Colección</a>
+      <a href="#valores">Por qué elegirnos</a>
+    </nav>
+    <a class="nav-cta" href="#coleccion">Ver colección</a>
+    <button class="menu-btn" aria-label="Abrir menú" aria-expanded="false" id="menuBtn">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#coleccion">Colección</a>
+    <a href="#valores">Por qué elegirnos</a>
+  </div>
+  <!-- NUEVO 6.0: barra que se llena mientras se baja por la página -->
+  <div class="scroll-progress" aria-hidden="true"></div>
+</header>
+
+<!--seccion principal-->
+<section class="hero">
+  <div class="sparkles"></div>
+  <div class="wrap hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow-line rise" style="--d:.1s">NUEVA TEMPORADA</div>
+      <h1 class="rise" style="--d:.25s">Donde tu estilo
+        <span class="script">encuentra su encanto</span>
+      </h1>
+      <p class="rise" style="--d:.4s">Prendas pensadas para quienes buscan algo distinto: piezas delicadas, colores de bosque y un toque de magia en cada detalle.</p>
+      <div class="hero-actions rise" style="--d:.55s">
+        <a class="btn-primary" href="#coleccion">Explorar la colección</a>
+        <a class="btn-ghost" href="#valores">Por qué elegirnos</a>
+      </div>
+    </div>
+    <div class="hero-art rise" style="--d:.35s">
+      <div class="frame">
+<img src="baner 2.0.jpg" alt="banner">
+      </div>
+      <div class="badge">
+        <img src="logo 2.0.jpg" alt="logo">
+        <span>El rincón de Alicia</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NUEVO 6.0: cinta con texto que se desplaza (decorativa) -->
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <div class="marquee-group"><span>Moda femenina y masculina</span><span>Piezas seleccionadas</span><span>Stock limitado</span><span>Trato cercano</span><span>Nueva temporada</span></div>
+    <div class="marquee-group"><span>Moda femenina y masculina</span><span>Piezas seleccionadas</span><span>Stock limitado</span><span>Trato cercano</span><span>Nueva temporada</span></div>
+  </div>
+</div>
+
+<!--seccion de prendas-->
+<section class="collection" id="coleccion">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">COLECCIÓN</span>
+      <h2>Piezas para esta temporada</h2>
+      <p>Una selección pequeña, renovada seguido, con prendas cómodas y con carácter.</p>
+    </div>
+
+    <!-- NUEVO 3.0: apartado de categorías de ropa (remeras, abrigos, ropa interior, etc.) 
+         Son botones de filtro: al tocar uno, el catálogo de abajo muestra solo esa categoría.
+         El botón "Todas" (data-category="todas") muestra el catálogo completo. se debe añadir al panel de administracion -->
+    <!-- NUEVO 4.0: buscador de prendas por nombre (ignora tildes y mayúsculas) -->
+    <div class="search-bar reveal" style="--rd:.1s">
+      <svg class="search-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/></svg>
+      <input type="search" id="searchInput" placeholder="Buscar prenda…" aria-label="Buscar prendas" autocomplete="off">
+      <button type="button" id="searchClear" class="search-clear" aria-label="Borrar búsqueda" style="display:none;">&times;</button>
+    </div>
+
+    <!-- Los botones de categoría se generan desde script.js (lista CATEGORIES), con contador de prendas.
+         Para agregar o cambiar categorías se edita SOLO esa lista: el filtro y el panel de administración se actualizan juntos. -->
+    <div class="category-filter" id="categoryFilter" role="tablist" aria-label="Categorías de ropa"></div>
+    <p class="results-info" id="resultsInfo" aria-live="polite"></p>
+    <!-- Fin del apartado de categorías  -->
+
+    <div class="cards" id="cardsGrid">
+      <!-- NUEVO 6.0: tarjetas "esqueleto" que se ven mientras Firebase carga; script.js las reemplaza -->
+      <div class="card skeleton" aria-hidden="true"><div class="card-img"></div><div class="body"><span class="sk-line"></span><span class="sk-line short"></span></div></div>
+      <div class="card skeleton" aria-hidden="true"><div class="card-img"></div><div class="body"><span class="sk-line"></span><span class="sk-line short"></span></div></div>
+      <div class="card skeleton" aria-hidden="true"><div class="card-img"></div><div class="body"><span class="sk-line"></span><span class="sk-line short"></span></div></div>
+      <div class="card skeleton" aria-hidden="true"><div class="card-img"></div><div class="body"><span class="sk-line"></span><span class="sk-line short"></span></div></div>
+      <p class="cards-empty" id="cardsEmpty" style="display:none;">Estamos cargando las primeras prendas de la temporada. Volvé en breve.</p>
+    </div>
+  </div>
+</section>
+
+
+<!--seccion de informacion FALTA MEJORAR-->
+<section class="values" id="valores">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="tag">POR QUÉ ELEGIRNOS</span>
+      <h2>Lo que nos distingue</h2>
+    </div>
+    <div class="values-grid">
+      <div class="value reveal" style="--rd:0.0s">
+        <div class="value-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.4L19 10l-5.1 1.6L12 17l-1.9-5.4L5 10l5.1-1.6z"/><path d="M19 16l.7 2 2 .7-2 .7-.7 2-.7-2-2-.7 2-.7z"/></svg></div>
+        <h3>Piezas seleccionadas</h3>
+        <p>Cada prenda se elige a mano pensando en calidad y en cómo se siente puesta, no solo en cómo se ve.</p>
+      </div>
+      <div class="value reveal" style="--rd:0.1s">
+        <div class="value-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12M6 21h12"/><path d="M7 3c0 5 4 6 5 9-1 3-5 4-5 9M17 3c0 5-4 6-5 9 1 3 5 4 5 9"/></svg></div>
+        <h3>Stock limitado</h3>
+        <p>Reponemos pocas unidades por diseño, así tu look no se repite en la esquina de al lado.</p>
+      </div>
+      <div class="value reveal" style="--rd:0.3s">
+        <div class="value-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg></div>
+        <h3>Trato cercano</h3>
+        <p>Escribinos por WhatsApp: te ayudamos a elegir talle, color o combinación.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- NUEVO 6.0: llamado a la acción antes del pie de página -->
+<section class="cta">
+  <div class="wrap">
+    <div class="cta-box reveal">
+      <h2>¿Te gustó algo?</h2>
+      <p>Escribinos por WhatsApp: te ayudamos a elegir talle, color o combinación.</p>
+      <a class="btn-primary cta-pulse" href="https://wa.me/5493743613882" target="_blank" rel="noopener">Escribir por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<!--datos. FALTAN TODOS LOS DATOS DE LA DUEÑA-->
+<!--Footer-->
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand">
+        <div class="brand-name">El rincón de Alicia</div>
+        <p>Donde tu estilo encuentra su encanto.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Tienda</h4>
+        <a href="#coleccion">Colección</a>
+        <a href="#valores">Por qué elegirnos</a>
+      </div>
+      <div class="foot-col">
+        <h4>Contacto</h4>
+        <a href="https://wa.me/543765095351" target="_blank">WhatsApp</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 El rincón de Alicia</span>
+      <span>Panel De Admistracion · <button id="adminLink" class="admin-link">Admin</button></span>
+    </div>
+  </div>
+</footer>
+
+
+<!--panel de administrador-->
+<div class="modal-overlay" id="loginModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <h3>Ingreso administrador</h3>
+      <button type="button" class="modal-close" id="loginClose" aria-label="Cerrar">&times;</button>
+    </div>
+    <form id="loginForm" class="admin-form">
+      <label>Correo
+        <input type="email" id="loginEmail" placeholder="admin@tudominio.com" required autocomplete="username">
+      </label>
+      <label>Contraseña
+        <input type="password" id="loginPassword" placeholder="••••••••" required autocomplete="current-password">
+      </label>
+      <p id="loginError" class="admin-error" style="display:none;"></p>
+      <button type="submit" class="btn-primary" style="width:100%;border:none;cursor:pointer;">Ingresar</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal-overlay" id="gestionModal">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <h3>Gestionar prendas</h3>
+      <button type="button" class="modal-close" id="gestionClose" aria-label="Cerrar">&times;</button>
+    </div>
+    <form id="adminForm" class="admin-form">
+      <label>Foto
+        <input type="file" id="prodPhoto" accept="image/*" required>
+      </label>
+      <img id="photoPreview" class="admin-preview" alt="" style="display:none;">
+      <label>Título
+        <input type="text" id="prodTitle" placeholder="Ej: Vestido Musgo" required>
+      </label>
+      <label>Precio
+        <input type="text" id="prodPrice" placeholder="Ej: $24.900" required>
+      </label>
+      <!--  NUEVO 3.0: selector de categoría para la prenda que se está agregando  -->
+      <label>Categoría
+        <select id="prodCategory" required></select>
+      </label>
+  
+      <p id="adminMsg" class="admin-error" style="display:none;"></p>
+      <button type="submit" id="addBtn" class="btn-primary" style="width:100%;border:none;cursor:pointer;">Agregar prenda</button>
+    </form>
+    <div class="admin-list-head">Prendas agregadas</div>
+    <div id="adminList" class="admin-list"></div>
+    <button type="button" id="logoutBtn" class="btn-ghost" style="border:none;padding:10px 0;cursor:pointer;">Cerrar sesión</button>
+  </div>
+</div>
+
+<!-- ===== NUEVO: ventana que se abre al tocar una prenda del catálogo, con sus datos
+     y un botón "Comprar" que lleva a WhatsApp con un mensaje ya escrito ===== -->
+<div class="modal-overlay" id="productModal">
+  <div class="modal-panel product-modal-panel">
+    <div class="modal-head">
+      <h3>Detalle de la prenda</h3>
+      <button type="button" class="modal-close" id="productModalClose" aria-label="Cerrar">&times;</button>
+    </div>
+    <img id="productModalImg" class="product-modal-img" alt="">
+    <div class="product-modal-info">
+      <span class="category-tag" id="productModalCategory"></span>
+      <h3 id="productModalName"></h3>
+      <span class="price" id="productModalPrice"></span>
+    </div>
+    <a id="productModalBuy" class="btn-primary product-modal-buy" href="#" target="_blank" rel="noopener">Comprar</a>
+  </div>
+</div>
+<!-- ===== Fin ventana de detalle de la prenda ===== -->
+
+<!-- NUEVO 6.0: botones flotantes (WhatsApp y volver arriba) -->
+<a class="fab-wa" href="https://wa.me/543765095351" target="_blank" rel="noopener" aria-label="Escribinos por WhatsApp">
+  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>
+</a>
+<button type="button" class="to-top" id="toTop" aria-label="Volver arriba">
+  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<!-- NUEVO 6.0: efectos visuales (no depende de Firebase, así la página se anima aunque falle la conexión) -->
+<script src="effects.js" defer></script>
+<script type="module" src="script.js"></script>
+
+</body>
+</html>
